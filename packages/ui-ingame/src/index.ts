@@ -30,6 +30,7 @@ export {
   FittingWindowLoading,
   type FittingWindowLoadingProps,
   type FittingWindowProps,
+  type PanelToggle,
 } from "./components/FittingWindow/FittingWindow";
 export { ItemBrowser, type ItemBrowserProps } from "./components/ItemBrowser/ItemBrowser";
 export { ShipStatistics, type ShipStatisticsProps } from "./components/ShipStatistics/ShipStatistics";

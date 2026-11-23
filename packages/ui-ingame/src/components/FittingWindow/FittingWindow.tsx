@@ -23,6 +23,7 @@ import {
 } from "@eveshipfit/react-hooks";
 import {
   useEffect,
+  useEffectEvent,
   useId,
   useRef,
   useState,
@@ -62,12 +63,24 @@ const oneDecimal = new Intl.NumberFormat("en-US", { minimumFractionDigits: 1, ma
 /** EVE draws eight, those the structure does not have as a faint outline. */
 const SERVICE_SLOTS = 8;
 
+/** A panel outside the window, opened and closed by the window's button for it. */
+export interface PanelToggle {
+  open: boolean;
+  onToggle: (open: boolean) => void;
+  /** The id of the panel. */
+  controls?: string;
+}
+
 export interface FittingWindowProps {
   label?: string;
   /** Like `ItemBrowser`; slid out by the Item Browser button, which is only there with it. */
   browser?: ReactNode;
   /** Like `ShipStatistics`; slid out by the Statistics button, which is only there with it. */
   statistics?: ReactNode;
+  /** In place of `browser`: the Item Browser button opens and closes an item browser outside the window. */
+  browserToggle?: PanelToggle;
+  /** In place of `statistics`: the Statistics button opens and closes statistics outside the window, also while there is no fit. */
+  statisticsToggle?: PanelToggle;
   /** Shows the fit without its warnings, history or anything to change it. */
   preview?: boolean;
   /** On the empty wheel while the store has no fit. */
@@ -79,6 +92,8 @@ export function FittingWindow({
   label = "Fitting Window",
   browser,
   statistics: givenStatistics,
+  browserToggle,
+  statisticsToggle,
   preview = false,
   placeholder = "Pick a hull to start.",
 }: FittingWindowProps) {
@@ -91,6 +106,12 @@ export function FittingWindow({
     setBrowsed(request);
     setBrowserOpen(true);
   }
+  const openBrowser = useEffectEvent(() => {
+    if (browserToggle?.open === false) browserToggle.onToggle(true);
+  });
+  useEffect(() => {
+    if (browsed !== undefined) openBrowser();
+  }, [browsed]);
   const [statisticsOpen, setStatisticsOpen] = useState(true);
   const browserId = useId();
   const statisticsId = useId();
@@ -104,6 +125,7 @@ export function FittingWindow({
       aria-label={label}
       data-browser={browserShown || undefined}
       data-statistics={statisticsShown || undefined}
+      data-docked={browserToggle !== undefined || statisticsToggle !== undefined || undefined}
     >
       {!preview && <ItemInfo />}
       {!preview && <Mutate />}
@@ -129,32 +151,38 @@ export function FittingWindow({
             <Violations />
           </>
         )}
-        {!preview && browser !== undefined && (
+        {!preview && (browser !== undefined || browserToggle !== undefined) && (
           <div className={styles.tools}>
             <Tooltip label="Item Browser">
               <button
                 type="button"
                 className={styles.tool}
                 aria-label="Item Browser"
-                aria-expanded={browserShown}
-                aria-controls={browserId}
-                onClick={() => setBrowserOpen(!browserShown)}
+                aria-expanded={browserToggle?.open ?? browserShown}
+                aria-controls={browserToggle ? browserToggle.controls : browserId}
+                onClick={() =>
+                  browserToggle ? browserToggle.onToggle(!browserToggle.open) : setBrowserOpen(!browserShown)
+                }
               >
                 <Icon name="hardware" />
               </button>
             </Tooltip>
           </div>
         )}
-        {!preview && statistics !== undefined && (
+        {!preview && (statistics !== undefined || statisticsToggle !== undefined) && (
           <div className={styles.panels}>
             <Tooltip label="Statistics">
               <button
                 type="button"
                 className={styles.tool}
                 aria-label="Statistics"
-                aria-expanded={statisticsShown}
-                aria-controls={statisticsId}
-                onClick={() => setStatisticsOpen(!statisticsShown)}
+                aria-expanded={statisticsToggle?.open ?? statisticsShown}
+                aria-controls={statisticsToggle ? statisticsToggle.controls : statisticsId}
+                onClick={() =>
+                  statisticsToggle
+                    ? statisticsToggle.onToggle(!statisticsToggle.open)
+                    : setStatisticsOpen(!statisticsShown)
+                }
               >
                 <Icon name="statistics" />
               </button>

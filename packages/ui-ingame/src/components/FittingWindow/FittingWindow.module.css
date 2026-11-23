@@ -22,6 +22,28 @@
   --statistics-width: calc(272 * var(--window-unit));
 }
 
+/* With its panels outside it, the window fills its container, the frame centered and its buttons at the edges, next to the panels. */
+.window[data-docked] {
+  container-type: inline-size;
+  min-width: calc(708 * var(--window-unit));
+  width: 100%;
+}
+
+.window[data-docked] > .frame {
+  --dock: calc((100cqw - 708 * var(--window-unit)) / 2);
+
+  left: var(--dock);
+  transition: none;
+}
+
+.window[data-docked] .tools {
+  left: calc(-1 * var(--dock));
+}
+
+.window[data-docked] .panels {
+  right: calc(-1 * var(--dock) - 8 * var(--window-unit));
+}
+
 /* Keeps what is aligned to the right in place when the window widens. */
 .frame {
   inset: calc(29 * var(--window-unit)) auto 0 var(--browser-width);
