@@ -9,6 +9,7 @@
     { "path": "./packages/zkillboard" },
     { "path": "./apps/web" },
     { "path": "./apps/storybook" },
+    { "path": "./apps/electron" },
     { "path": "./tsconfig.node.json" }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["es2024"],
+    "types": ["node"],
+    "outDir": "${configDir}/.tsbuild/node"
+  },
+  "include": ["scripts", "src/main", "vite.config.ts"]
+}
