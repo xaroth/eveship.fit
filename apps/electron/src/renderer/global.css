@@ -4,9 +4,14 @@ body {
 }
 
 body {
-  background: #0b0d0f;
+  background: radial-gradient(ellipse 80% 60% at 50% 45%, rgb(40 70 90 / 22%), transparent 70%), var(--esf-bg);
+  color: var(--esf-text);
+  font-family: var(--esf-font);
+  font-size: var(--esf-font-size);
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
   height: 100dvh;
 }

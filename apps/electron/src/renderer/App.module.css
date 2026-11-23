@@ -1,0 +1,37 @@
+.app {
+  display: grid;
+  flex: 1;
+  grid-template-columns: auto 1fr auto;
+  min-height: 0;
+}
+
+.message {
+  color: var(--esf-text-muted);
+  margin: auto;
+  text-align: center;
+}
+
+.panel {
+  background: rgb(22 25 28 / 70%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 12px;
+}
+
+.left {
+  border-right: 1px solid rgb(255 255 255 / 7%);
+}
+
+.right {
+  border-left: 1px solid rgb(255 255 255 / 7%);
+}
+
+.fitting {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  overflow: auto;
+}

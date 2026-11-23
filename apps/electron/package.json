@@ -9,6 +9,14 @@
     "dev": "node scripts/dev.ts"
   },
   "dependencies": {
+    "@eveshipfit/dogma-engine": "catalog:",
+    "@eveshipfit/fitting": "workspace:*",
+    "@eveshipfit/images": "catalog:",
+    "@eveshipfit/react-hooks": "workspace:*",
+    "@eveshipfit/sde": "catalog:",
+    "@eveshipfit/sde-loader": "workspace:*",
+    "@eveshipfit/ui-ingame": "workspace:*",
+    "@fontsource-variable/noto-sans": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

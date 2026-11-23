@@ -32,5 +32,7 @@ export default defineConfig({
   environments: {
     client: { build: { outDir: "dist/renderer", target: "es2024" } },
     main: node("src/main/main.ts", "es", "mjs"),
+    // Sandboxed preload scripts must be CommonJS.
+    preload: node("src/main/preload.ts", "cjs", "cjs"),
   },
 });
